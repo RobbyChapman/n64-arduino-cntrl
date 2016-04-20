@@ -1,6 +1,14 @@
-N64-To-USB
 
-2012 Michele Perla
+
+2012 Michele Perla. He was the original author of N64-To-USB. This repo essentially
+wraps his work into an Arduino compatible library. This was done to free up an
+existing sketch I am working on for the XBees. N64_To_USB_Atmega16u2 was removed
+from this fork as that functionality is outside the scope of this project.
+
+For more information on the original implementation, see below:
+
+https://github.com/MickMad/N64-To-USB
+
 
 This Arduino application uses the two ATmega on your Arduino to turn it into
 an N64 to USB joystick for two controllers; the ATmega328p is used to read 
