@@ -1,4 +1,9 @@
 
+# N64 Arduino Controller
+
+Main controller for &lt;${PROJ_NAME}>
+
+![Alt text](./assets/controller.jpeg?raw=true “Controller”)
 
 2012 Michele Perla. He was the original author of N64-To-USB. This repo essentially
 wraps his work into an Arduino compatible library. This was done to free up an
