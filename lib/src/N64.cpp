@@ -1,27 +1,17 @@
 /**
- * Gamecube controller to Nintendo 64 adapter
- * by Andrew Brown
- * Rewritten for N64 to HID by Peter Den Hartog
- */
-
- /**
-  * N64-To-USB
-  * by Michele Perla
-  * ----> Ported his code into an Arduino compatible library
-  */
+* Gamecube controller to Nintendo 64 adapter
+* by Andrew Brown
+* Rewritten for N64 to HID by Peter Den Hartog
+*/
 
 /**
- * To use, hook up the following to the Arduino Duemilanove:
- * Digital I/O 2: N64 serial line
- * All appropriate grounding and power lines
- */
-
+* N64-To-USB
+* by Michele Perla <-- Ported his code into an Arduino compatible library
+*/
 
 #include "pins_arduino.h"
 #include "Arduino.h"
 #include "N64.h"
-#include "crc_table.h"
-
 
 #define N64_PIN_DIR DDRD
 // these two macros set arduino pin 2 to input or output, which with an
@@ -34,10 +24,11 @@
 char N64_raw_dump[33];
 int N64_PIN;
 
-
 void N64_get();
 
 void N64_send(unsigned char *buffer, char length);
+
+N64_DTO print_N64_status();
 
 void translate_raw_data();
 
@@ -50,6 +41,7 @@ struct {
     char stick_x;
     char stick_y;
 } N64_status;
+
 // 1 received bit per byte
 
 N64::N64(int pin) {
@@ -277,7 +269,13 @@ void N64_get() {
 
 }
 
-void print_N64_status() {
+N64_DTO print_N64_status() {
+
+    N64_DTO controller;
+
+    controller.x = 1;
+    controller.y = 0;
+
     int i;
     // bits: A, B, Z, Start, Dup, Ddown, Dleft, Dright
     // bits: 0, 0, L, R, Cup, Cdown, Cleft, Cright
@@ -321,9 +319,11 @@ void print_N64_status() {
     Serial.println(N64_status.stick_x, DEC);
     Serial.print("Stick Y:");
     Serial.println(N64_status.stick_y, DEC);
+
+    return controller;
 }
 
-void N64::read() {
+N64_DTO N64::read() {
     int i;
     unsigned char data, addr;
 
@@ -355,4 +355,5 @@ void N64::read() {
     Serial.print(" \n");
 
     delay(25);
+    return print_N64_status();
 }

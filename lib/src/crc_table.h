@@ -3,6 +3,10 @@
  * the cube64 project
  *  http://cia.vc/stats/project/navi-misc/cube64
  */
+
+ #ifndef CRC_TABLE_H
+ #define CRC_TABLE_H
+
 unsigned char crc_repeating_table[] = {
         	0xFF, // 0x00
 		0x14, // 0x01
@@ -261,3 +265,5 @@ unsigned char crc_repeating_table[] = {
 		0x1E, // 0xFE
 		0xF5 // 0xFF
 };
+
+#endif
