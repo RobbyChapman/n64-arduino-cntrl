@@ -28,7 +28,7 @@ void N64_get();
 
 void N64_send(unsigned char *buffer, char length);
 
-N64_DTO print_N64_status();
+N64_DTO getN64DTO();
 
 void translate_raw_data();
 
@@ -269,56 +269,26 @@ void N64_get() {
 
 }
 
-N64_DTO print_N64_status() {
+N64_DTO getN64DTO() {
 
     N64_DTO controller;
 
-    controller.x = 1;
-    controller.y = 0;
-
-    int i;
-    // bits: A, B, Z, Start, Dup, Ddown, Dleft, Dright
-    // bits: 0, 0, L, R, Cup, Cdown, Cleft, Cright
-    Serial.println();
-    Serial.print("Start: ");
-    Serial.println(N64_status.data1 & 16 ? 1 : 0);
-
-    Serial.print("Z:     ");
-    Serial.println(N64_status.data1 & 32 ? 1 : 0);
-
-    Serial.print("B:     ");
-    Serial.println(N64_status.data1 & 64 ? 1 : 0);
-
-    Serial.print("A:     ");
-    Serial.println(N64_status.data1 & 128 ? 1 : 0);
-
-    Serial.print("L:     ");
-    Serial.println(N64_status.data2 & 32 ? 1 : 0);
-    Serial.print("R:     ");
-    Serial.println(N64_status.data2 & 16 ? 1 : 0);
-
-    Serial.print("Cup:   ");
-    Serial.println(N64_status.data2 & 0x08 ? 1 : 0);
-    Serial.print("Cdown: ");
-    Serial.println(N64_status.data2 & 0x04 ? 1 : 0);
-    Serial.print("Cright:");
-    Serial.println(N64_status.data2 & 0x01 ? 1 : 0);
-    Serial.print("Cleft: ");
-    Serial.println(N64_status.data2 & 0x02 ? 1 : 0);
-
-    Serial.print("Dup:   ");
-    Serial.println(N64_status.data1 & 0x08 ? 1 : 0);
-    Serial.print("Ddown: ");
-    Serial.println(N64_status.data1 & 0x04 ? 1 : 0);
-    Serial.print("Dright:");
-    Serial.println(N64_status.data1 & 0x01 ? 1 : 0);
-    Serial.print("Dleft: ");
-    Serial.println(N64_status.data1 & 0x02 ? 1 : 0);
-
-    Serial.print("Stick X:");
-    Serial.println(N64_status.stick_x, DEC);
-    Serial.print("Stick Y:");
-    Serial.println(N64_status.stick_y, DEC);
+    controller.start = N64_status.data1 & 16 ? 1 : 0;
+    controller.z = N64_status.data1 & 32 ? 1 : 0;
+    controller.b = N64_status.data1 & 64 ? 1 : 0;
+    controller.a = N64_status.data1 & 128 ? 1 : 0;
+    controller.leftBumper = N64_status.data2 & 32 ? 1 : 0;
+    controller.rightBumper = N64_status.data2 & 16 ? 1 : 0;
+    controller.cUp = N64_status.data2 & 0x08 ? 1 : 0;
+    controller.cDown = N64_status.data2 & 0x04 ? 1 : 0;
+    controller.cRight = N64_status.data2 & 0x01 ? 1 : 0;
+    controller.cLeft = N64_status.data2 & 0x02 ? 1 : 0;
+    controller.dUp = N64_status.data1 & 0x08 ? 1 : 0;
+    controller.dDown = N64_status.data1 & 0x04 ? 1 : 0;
+    controller.dRight = N64_status.data1 & 0x01 ? 1 : 0;
+    controller.dLeft = N64_status.data1 & 0x02 ? 1 : 0;
+    controller.x = N64_status.stick_x;
+    controller.y = N64_status.stick_y;
 
     return controller;
 }
@@ -345,15 +315,7 @@ N64_DTO N64::read() {
     // translate the data in N64_raw_dump to something useful
     translate_raw_data();
 
-    for (i = 0; i < 16; i++) {
-        Serial.print(N64_raw_dump[i], DEC);
-    }
-    Serial.print(' ');
-    Serial.print(N64_status.stick_x, DEC);
-    Serial.print(' ');
-    Serial.print(N64_status.stick_y, DEC);
-    Serial.print(" \n");
-
     delay(25);
-    return print_N64_status();
+
+    return getN64DTO();
 }

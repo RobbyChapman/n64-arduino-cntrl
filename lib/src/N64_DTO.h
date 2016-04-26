@@ -1,6 +1,6 @@
 /**
- * Created by robert.chapman on 4/21/16.
- */
+* Created by robert.chapman on 4/21/16.
+*/
 
 #ifndef N64_DTO_H
 #define N64_DTO_H
