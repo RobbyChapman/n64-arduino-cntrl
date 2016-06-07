@@ -48,9 +48,8 @@ N64::N64(int pin) {
     N64_PIN = pin;
 }
 
-void N64::begin(int baud) {
+void N64::begin() {
 
-    Serial.begin(115200);
     // Communication with gamecube controller on this pin
     // Don't remove these lines, we don't want to push +5V to the controller
     digitalWrite(N64_PIN, LOW);

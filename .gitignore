@@ -1,2 +1,3 @@
 lib/src/*.gch
 lib/src/*.zip
+*.idea
