@@ -1,7 +1,7 @@
 
 # N64 Arduino Controller
 
-Main controller for &lt;${PROJ_NAME}>
+Main controller for [Bucket-Bot](https://github.com/RobbyChapman/bucket-bot)
 
 ![Alt text](./assets/Controller2.jpeg?raw=true "Optional Title")
 
