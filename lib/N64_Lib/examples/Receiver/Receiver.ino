@@ -1,3 +1,4 @@
+#include <ICSC.h>
 #include <crc_table.h>
 #include <N64.h>
 #include <N64_DTO.h>
