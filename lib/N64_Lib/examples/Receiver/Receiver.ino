@@ -4,23 +4,30 @@
 #include <N64_DTO.h>
 #include <SoftwareSerial.h>
 
-N64_DTO controller;
+ICSC icsc(Serial, 'B');
 SoftwareSerial xbee(3, 4);
 
-void setup() {
-  
-  Serial.begin(115200);
-  xbee.begin(9600);
+static void handlePacket(unsigned char src, char command, unsigned char len, char *data);
+
+void setup() 
+{
+  Serial.begin(9600);
+  icsc.begin();
+  icsc.registerCommand('C', &handlePacket);
+  //xbee.begin(115200);
 }
 
-void loop() {
-  
-  while (xbee.available() > 0) {
-    xbee.readBytes((char *)&controller, sizeof(N64_DTO));
-    /* For debug use */
-    Serial.print("Y Joystick::");
-    Serial.println(controller.y, DEC);
-    Serial.print("X Joystick::");
-    Serial.println(controller.x, DEC);
-  }
+void loop() 
+{
+  icsc.process();
+}
+
+static void handlePacket(unsigned char src, char command, unsigned char len, char *data)
+{
+  N64_DTO *controller = (N64_DTO *)data;
+  /* For debug use */
+  xbee.print("Y Joystick::");
+  xbee.println(controller->y, DEC);
+  xbee.print("X Joystick::");
+  xbee.println(controller->x, DEC);  
 }
